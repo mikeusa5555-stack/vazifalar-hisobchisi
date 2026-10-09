@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#f7f7fb" />
     <meta name="description" content="Dars, vazifa va o‘qish vaqtingizni bir joyda rejalashtiring." />
     <title>Kun tartibim — O‘qish rejam</title>
-    <link rel="stylesheet" href="src/styles.css" />
+    <link rel="stylesheet" href="src/styles.css?v=3" />
   </head>
   <body>
     <div class="app-shell">
@@ -59,13 +59,18 @@
           <div class="banner-progress"><div class="banner-progress-label"><span>Tayyorgarlik</span><strong>68%</strong></div><div class="progress-track"><i style="width:68%"></i></div></div>
           <a href="#tasks" data-view-link class="banner-link" aria-label="Vazifalarni ko‘rish">→</a><div class="banner-orb orb-one"></div><div class="banner-orb orb-two"></div>
         </section>
-            <section class="panel home-links-panel">
-              <div class="panel-heading"><div><h2>O‘quv markazingiz</h2><p>Kerakli bo‘limni tanlang</p></div></div>
+            <section class="panel home-links-panel" aria-labelledby="home-links-title">
+              <div class="home-links-heading">
+                <div><p class="eyebrow">HAMMASI BIR JOYDA</p><h2 id="home-links-title">Bugungi rejangiz</h2><p>O‘qishingiz uchun kerakli bo‘limga bir bosishda o‘ting.</p></div>
+                <span class="home-links-count">6 ta bo‘lim</span>
+              </div>
               <div class="home-links-grid">
-                <a class="home-link-card" href="#tasks" data-view-link><span class="home-link-icon purple">✓</span><span><strong>Vazifalarim</strong><small>Uy vazifalarini boshqarish</small></span><span class="home-link-arrow">→</span></a>
-                <a class="home-link-card" href="#schedule" data-view-link><span class="home-link-icon blue">▦</span><span><strong>Dars jadvali</strong><small>Bugungi darslarni ko‘rish</small></span><span class="home-link-arrow">→</span></a>
-                <a class="home-link-card" href="#focus" data-view-link><span class="home-link-icon orange">◷</span><span><strong>Fokus vaqti</strong><small>Birgalikda diqqat qiling</small></span><span class="home-link-arrow">→</span></a>
-                <a class="home-link-card" href="#stats" data-view-link><span class="home-link-icon green">⌁</span><span><strong>Haftalik natija</strong><small>O‘sishingizni kuzating</small></span><span class="home-link-arrow">→</span></a>
+                <a class="home-link-card tasks-shortcut" href="#tasks" data-view-link><span class="home-link-top"><span class="home-link-icon purple">✓</span><span class="home-link-tag">REJALASHTIRISH</span><span class="home-link-arrow">↗</span></span><strong>Uy vazifalari</strong><span class="home-link-description">Muhim topshiriqlarni ko‘ring, qo‘shing va bajarganingizni belgilang.</span><span class="home-link-meta"><span class="shortcut-dot purple-dot"></span><span id="shortcut-task-count">2 ta bajarilmagan vazifa</span></span></a>
+                <a class="home-link-card schedule-shortcut" href="#schedule" data-view-link><span class="home-link-top"><span class="home-link-icon blue">▦</span><span class="home-link-tag">BUGUNGI REJA</span><span class="home-link-arrow">↗</span></span><strong>Dars jadvali</strong><span class="home-link-description">Bugungi darslar, boshlanish vaqti va xonalarni tekshiring.</span><span class="home-link-meta"><span class="shortcut-dot blue-dot"></span><span>Bugun · 3 ta dars</span></span></a>
+                <a class="home-link-card focus-shortcut" href="#focus" data-view-link><span class="home-link-top"><span class="home-link-icon orange">◷</span><span class="home-link-tag">DIQQATNI JAMLASH</span><span class="home-link-arrow">↗</span></span><strong>Fokus taymeri</strong><span class="home-link-description">25 daqiqa o‘qing, 5 daqiqa dam oling va XP to‘plang.</span><span class="home-link-meta"><span class="shortcut-dot orange-dot"></span><span>25 daqiqa · Pomodoro</span></span></a>
+                <a class="home-link-card stats-shortcut" href="#stats" data-view-link><span class="home-link-top"><span class="home-link-icon green">⌁</span><span class="home-link-tag">RIVOJLANISH</span><span class="home-link-arrow">↗</span></span><strong>Haftalik statistika</strong><span class="home-link-description">O‘qish vaqtingiz va hafta davomida erishgan natijalaringiz.</span><span class="home-link-meta"><span class="shortcut-dot green-dot"></span><span id="shortcut-study-hours">12.2 soat bu hafta</span></span></a>
+                <a class="home-link-card rewards-shortcut" href="#rewards" data-view-link><span class="home-link-top"><span class="home-link-icon yellow">✦</span><span class="home-link-tag">YUTUQLAR</span><span class="home-link-arrow">↗</span></span><strong>XP va mukofotlar</strong><span class="home-link-description">To‘plagan ballaringiz va ochilgan yutuqlaringizni ko‘ring.</span><span class="home-link-meta"><span class="shortcut-dot yellow-dot"></span><span id="shortcut-xp">240 XP to‘plandi</span></span></a>
+                <a class="home-link-card profile-shortcut" href="#settings" data-view-link><span class="home-link-top"><span class="home-link-icon violet">◎</span><span class="home-link-tag">MENING PROFILIM</span><span class="home-link-arrow">↗</span></span><strong>Profil sozlamalari</strong><span class="home-link-description">Ism, familiya va sinfingiz haqidagi ma’lumotlarni yangilang.</span><span class="home-link-meta"><span class="shortcut-dot violet-dot"></span><span id="shortcut-profile-grade">O‘quvchi profili</span></span></a>
               </div>
             </section>
           </section>
@@ -360,6 +365,7 @@
           $('#nav-task-count').textContent = String(remainingCount);
           $('#all-task-count').textContent = String(data.tasks.length);
           $('#completed-count').textContent = String(data.completedToday);
+          $('#shortcut-task-count').textContent = `${remainingCount} ta bajarilmagan vazifa`;
           $('#task-progress-label').textContent = `${doneCount} / ${data.tasks.length} vazifa bajarildi`;
           $('#task-progress-bar').style.width = `${data.tasks.length ? doneCount / data.tasks.length * 100 : 0}%`;
           for (const button of document.querySelectorAll('[data-filter]')) {
@@ -383,6 +389,8 @@
           $('#xp-next').textContent = `${100 - progress} XP keyingi bosqichgacha`;
           $('#study-hours').textContent = hours;
           $('#weekly-hours').textContent = hours;
+          $('#shortcut-study-hours').textContent = `${hours} soat bu hafta`;
+          $('#shortcut-xp').textContent = `${data.xp} XP to‘plandi`;
           $('#focus-count').textContent = String(data.focusSessions);
           $('#level-badge').textContent = `LVL ${level}`;
           $('#reward-xp').textContent = `${data.xp} XP`;
@@ -420,6 +428,7 @@
           $('#settings-initial').textContent = firstName.charAt(0).toLocaleUpperCase('uz-UZ');
           $('#settings-name').textContent = fullName;
           $('#settings-grade').textContent = `O‘quvchi · ${grade}-sinf`;
+          $('#shortcut-profile-grade').textContent = `${grade}-sinf o‘quvchisi`;
         }
         function renderTimer() {
           $('#timer-time').textContent = `${pad(Math.floor(data.seconds / 60))}:${pad(data.seconds % 60)}`;

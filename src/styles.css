@@ -73,20 +73,36 @@ button.profile { width: 100%; padding-right: 0; padding-bottom: 1px; padding-lef
 .focus-tip h2 { margin: 10px 0 7px; font: 750 14px 'Manrope', sans-serif; }
 .focus-tip p { margin: 0; color: #9291a3; font-size: 10px; line-height: 1.9; }
 .focus-tip strong { color: #755be9; }
-.home-links-panel { padding: 19px; }
-.home-links-panel > .panel-heading { margin-bottom: 14px; }
-.home-links-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.home-link-card { min-height: 63px; padding: 10px 12px; display: flex; align-items: center; gap: 10px; border: 1px solid #efeff4; border-radius: 9px; transition: border-color .18s ease, transform .18s ease; }
-.home-link-card:hover { border-color: #c9bfff; transform: translateY(-1px); }
-.home-link-icon { width: 32px; height: 32px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 8px; font-size: 17px; }
+.home-links-panel { padding: 22px; }
+.home-links-heading { margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.home-links-heading .eyebrow { margin-bottom: 6px; }
+.home-links-heading h2 { margin: 0; font: 750 18px 'Manrope', sans-serif; letter-spacing: -.4px; }
+.home-links-heading > div > p:last-child { margin: 6px 0 0; color: #9291a4; font-size: 11px; }
+.home-links-count { padding: 7px 10px; border: 1px solid #ebe7ff; border-radius: 20px; color: #755be9; background: #f7f5ff; font-size: 10px; font-weight: 700; white-space: nowrap; }
+.home-links-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.home-link-card { min-width: 0; min-height: 174px; padding: 15px; display: flex; flex-direction: column; align-items: stretch; gap: 0; border: 1px solid #efeff4; border-radius: 12px; background: linear-gradient(145deg, #fff, #fcfbff); transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease; }
+.home-link-card:hover, .home-link-card:focus-visible { border-color: #c9bfff; transform: translateY(-2px); box-shadow: 0 8px 20px #35236c0d; outline: none; }
+.home-link-top { margin-bottom: 13px; display: flex; align-items: center; gap: 9px; }
+.home-link-icon { width: 34px; height: 34px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 10px; font-size: 17px; }
+.home-link-tag { color: #a09eae; font-size: 8px; font-weight: 700; letter-spacing: .7px; }
+.home-link-arrow { margin-left: auto; color: #aaa3c8; font-size: 15px; transition: transform .18s ease; }
+.home-link-card:hover .home-link-arrow, .home-link-card:focus-visible .home-link-arrow { transform: translate(2px, -2px); color: #755be9; }
+.home-link-card > strong { font: 700 12px 'Manrope', sans-serif; }
+.home-link-description { min-height: 34px; margin-top: 6px; color: #9291a4; font-size: 9px; line-height: 1.6; }
+.home-link-meta { margin-top: auto; padding-top: 12px; display: flex; align-items: center; gap: 6px; color: #737286; font-size: 9px; font-weight: 600; }
+.shortcut-dot { width: 7px; height: 7px; flex: 0 0 auto; border-radius: 50%; }
+.purple-dot { background: #896fec; }
+.blue-dot { background: #65a5e9; }
+.orange-dot { background: #f2a061; }
+.green-dot { background: #5db58b; }
+.yellow-dot { background: #e7b84d; }
+.violet-dot { background: #bf82db; }
 .home-link-icon.purple { color: #755be9; background: #f0ecff; }
 .home-link-icon.blue { color: #599be5; background: #eaf4ff; }
 .home-link-icon.orange { color: #f29855; background: #fff2e8; }
 .home-link-icon.green { color: #46a47c; background: #eaf8f0; }
-.home-link-card > span:nth-child(2) { min-width: 0; display: grid; gap: 4px; }
-.home-link-card strong { font-size: 10px; }
-.home-link-card small { color: #9998a8; font-size: 8px; }
-.home-link-arrow { margin-left: auto; color: #9a8ae5; }
+.home-link-icon.yellow { color: #bc8c23; background: #fff7df; }
+.home-link-icon.violet { color: #a463c1; background: #f8edff; }
 .achievement-grid { max-width: 900px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .achievement-card { min-height: 93px; padding: 15px; display: flex; align-items: flex-start; gap: 10px; border: 1px solid #efeff4; border-radius: 10px; background: #fff; opacity: .62; }
 .achievement-card.earned { opacity: 1; border-color: #e3ddfc; background: linear-gradient(145deg, #fff, #f8f6ff); }
@@ -317,6 +333,9 @@ h1 span { font-size: 20px; }
   .banner-progress { width: calc(100% - 52px); margin-left: 51px; }
   .banner-link { position: absolute; right: 12px; bottom: 12px; }
   .content-grid { grid-template-columns: 1fr; }
+  .home-links-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .home-links-panel { padding: 16px; }
+  .home-link-card { min-height: 185px; padding: 12px; }
   .side-column { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
   .timer-panel { grid-row: span 2; }
   .schedule-panel, .reward-card { min-width: 0; }
