@@ -36,8 +36,9 @@ a { color: inherit; text-decoration: none; }
 .sidebar-tip > span:not(.tip-sparkle) { color: #9290a5; font-size: 9px; }
 .tip-dots { position: absolute; right: -1px; bottom: -13px; display: flex; gap: 5px; transform: rotate(-24deg); }
 .tip-dots i { width: 33px; height: 33px; border: 1px solid #e6e1ff; border-radius: 50%; }
-.settings-button { width: 100%; background: transparent; border: 0; margin-bottom: 14px; cursor: pointer; }
+.settings-button { width: 100%; border: 0; background: transparent; margin-bottom: 14px; cursor: pointer; text-align: left; }
 .profile { display: flex; align-items: center; gap: 9px; padding: 14px 2px 1px; border-top: 1px solid #f0eff4; }
+button.profile { width: 100%; padding-right: 0; padding-bottom: 1px; padding-left: 2px; border-right: 0; border-bottom: 0; border-left: 0; background: transparent; text-align: left; cursor: pointer; }
 .avatar, .top-avatar { display: grid; place-items: center; flex: 0 0 auto; color: #694bdc; font-weight: 700; background: #eee9ff; border-radius: 50%; }
 .avatar { width: 33px; height: 33px; font-size: 13px; }
 .profile-text { display: grid; gap: 3px; min-width: 0; }

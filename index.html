@@ -25,8 +25,8 @@
         </nav>
         <div class="sidebar-bottom">
           <div class="sidebar-tip"><span class="tip-sparkle">✦</span><strong>Kichik qadamlar, katta natijalar.</strong><span>Bugun kechagidan yaxshiroq bo‘ling!</span><div class="tip-dots"><i></i><i></i><i></i></div></div>
-          <a class="nav-item settings-button" href="#home"><span aria-hidden="true">⚙</span><span>Sozlamalar</span></a>
-          <div class="profile"><div class="avatar">S</div><div class="profile-text"><strong>Salom, Sardor!</strong><span>O‘quvchi · 8-sinf</span></div><span class="profile-more">···</span></div>
+          <button class="nav-item settings-button" id="edit-profile" type="button"><span aria-hidden="true">⚙</span><span>Profilni tahrirlash</span></button>
+          <button class="profile" id="profile-button" type="button" aria-label="Profilni tahrirlash"><span class="avatar" id="profile-initial">?</span><span class="profile-text"><strong id="profile-name">Profil yaratish</strong><span id="profile-grade">Ism va sinfingizni kiriting</span></span><span class="profile-more">···</span></button>
         </div>
       </aside>
 
@@ -109,6 +109,15 @@
           <button class="primary-button modal-submit" type="submit">＋ Vazifani qo‘shish</button>
         </form>
       </div>
+      <div class="modal-backdrop" id="profile-modal-backdrop" hidden>
+        <form class="task-modal" id="profile-form">
+          <div class="modal-heading"><div><h2 id="profile-form-title">Profil yaratish</h2><p id="profile-form-description">Davom etish uchun ismingiz va sinfingizni kiriting</p></div><button type="button" class="icon-button" id="profile-modal-close" aria-label="Yopish" hidden>×</button></div>
+          <label>Ismingiz<input name="firstName" autocomplete="given-name" placeholder="Masalan, Sardor" required maxlength="40" /></label>
+          <label>Familiyangiz<input name="lastName" autocomplete="family-name" placeholder="Masalan, Aliyev" required maxlength="50" /></label>
+          <label>Sinfingiz<select name="grade" required><option value="" disabled selected>Sinfingizni tanlang</option><option value="1">1-sinf</option><option value="2">2-sinf</option><option value="3">3-sinf</option><option value="4">4-sinf</option><option value="5">5-sinf</option><option value="6">6-sinf</option><option value="7">7-sinf</option><option value="8">8-sinf</option><option value="9">9-sinf</option><option value="10">10-sinf</option><option value="11">11-sinf</option></select></label>
+          <button class="primary-button modal-submit" type="submit">Profilni saqlash</button>
+        </form>
+      </div>
       <div class="toast" id="toast" role="status" hidden></div>
     </div>
 
@@ -134,6 +143,7 @@
           xp: Number.isFinite(saved.xp) ? saved.xp : 240,
           focusSessions: Number.isFinite(saved.focusSessions) ? saved.focusSessions : 8,
           completedToday: Number.isFinite(saved.completedToday) ? saved.completedToday : 1,
+          profile: saved.profile && typeof saved.profile.firstName === 'string' && typeof saved.profile.lastName === 'string' && typeof saved.profile.grade === 'string' ? saved.profile : null,
           filter: 'Barchasi',
           mode: 'focus',
           seconds: 1500,
@@ -148,7 +158,7 @@
 
         function save() {
           try {
-            localStorage.setItem(KEY, JSON.stringify({ tasks: data.tasks, xp: data.xp, focusSessions: data.focusSessions, completedToday: data.completedToday }));
+            localStorage.setItem(KEY, JSON.stringify({ tasks: data.tasks, xp: data.xp, focusSessions: data.focusSessions, completedToday: data.completedToday, ...(data.profile ? { profile: data.profile } : {}) }));
           } catch (error) {
             console.error('O‘quv rejasini saqlab bo‘lmadi:', error);
             showToast('Ma’lumotlarni saqlab bo‘lmadi');
@@ -256,6 +266,16 @@
           $('#exam-days').textContent = String(days);
           $('#banner-days').textContent = String(days);
         }
+        function renderProfile() {
+          if (!data.profile) return;
+          const { firstName, lastName, grade } = data.profile;
+          const fullName = `${firstName} ${lastName}`;
+          $('#profile-name').textContent = fullName;
+          $('#profile-grade').textContent = `O‘quvchi · ${grade}-sinf`;
+          $('#profile-initial').textContent = firstName.charAt(0).toLocaleUpperCase('uz-UZ');
+          $('.top-avatar').textContent = firstName.charAt(0).toLocaleUpperCase('uz-UZ');
+          $('h1').firstChild.textContent = `Assalomu alaykum, ${firstName} `;
+        }
         function renderTimer() {
           $('#timer-time').textContent = `${pad(Math.floor(data.seconds / 60))}:${pad(data.seconds % 60)}`;
           $('#timer-caption').textContent = data.mode === 'focus' ? 'diqqat bilan o‘qing' : 'biroz dam oling';
@@ -288,6 +308,22 @@
         function closeForm() {
           $('#task-modal-backdrop').hidden = true;
           $('#task-form').reset();
+        }
+        function openProfileForm() {
+          const backdrop = $('#profile-modal-backdrop');
+          const form = $('#profile-form');
+          $('#profile-form-title').textContent = data.profile ? 'Profilni tahrirlash' : 'Profil yaratish';
+          $('#profile-form-description').textContent = data.profile ? 'Ism, familiya va sinfingizni yangilang' : 'Davom etish uchun ismingiz va sinfingizni kiriting';
+          $('#profile-modal-close').hidden = !data.profile;
+          form.elements.firstName.value = data.profile?.firstName || '';
+          form.elements.lastName.value = data.profile?.lastName || '';
+          form.elements.grade.value = data.profile?.grade || '';
+          backdrop.hidden = false;
+          form.elements.firstName.focus();
+        }
+        function closeProfileForm() {
+          if (!data.profile) return;
+          $('#profile-modal-backdrop').hidden = true;
         }
         function changeMode(mode) {
           window.clearInterval(data.timerId);
@@ -327,11 +363,19 @@
         document.querySelectorAll('[data-open-form]').forEach((button) => button.addEventListener('click', openForm));
         document.querySelectorAll('[data-filter]').forEach((button) => button.addEventListener('click', () => { data.filter = button.dataset.filter; renderTasks(); }));
         document.querySelectorAll('[data-mode]').forEach((button) => button.addEventListener('click', () => changeMode(button.dataset.mode)));
+        $('#edit-profile').addEventListener('click', openProfileForm);
+        $('#profile-button').addEventListener('click', openProfileForm);
         $('#timer-toggle').addEventListener('click', toggleTimer);
         $('#timer-reset').addEventListener('click', () => changeMode(data.mode));
         $('#modal-close').addEventListener('click', closeForm);
         $('#task-modal-backdrop').addEventListener('click', (event) => { if (event.target === event.currentTarget) closeForm(); });
-        document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !$('#task-modal-backdrop').hidden) closeForm(); });
+        $('#profile-modal-close').addEventListener('click', closeProfileForm);
+        $('#profile-modal-backdrop').addEventListener('click', (event) => { if (event.target === event.currentTarget) closeProfileForm(); });
+        document.addEventListener('keydown', (event) => {
+          if (event.key !== 'Escape') return;
+          if (!$('#task-modal-backdrop').hidden) closeForm();
+          if (!$('#profile-modal-backdrop').hidden) closeProfileForm();
+        });
         $('#task-form').addEventListener('submit', (event) => {
           event.preventDefault();
           const form = new FormData(event.currentTarget);
@@ -343,10 +387,25 @@
           renderTasks();
           showToast('Yangi vazifa qo‘shildi');
         });
+        $('#profile-form').addEventListener('submit', (event) => {
+          event.preventDefault();
+          const form = new FormData(event.currentTarget);
+          const firstName = String(form.get('firstName') || '').trim();
+          const lastName = String(form.get('lastName') || '').trim();
+          const grade = String(form.get('grade') || '');
+          if (!firstName || !lastName || !/^(?:[1-9]|1[01])$/.test(grade)) return;
+          data.profile = { firstName, lastName, grade };
+          save();
+          renderProfile();
+          $('#profile-modal-backdrop').hidden = true;
+          showToast(`Xush kelibsiz, ${firstName}!`);
+        });
         renderDate();
         renderTasks();
         renderStats();
         renderTimer();
+        if (data.profile) renderProfile();
+        else openProfileForm();
       })();
     </script>
   </body>
